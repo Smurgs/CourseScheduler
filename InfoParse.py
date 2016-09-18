@@ -37,7 +37,11 @@ class InfoManager(object):
 
 		craftedURL = "http://at.eng.carleton.ca/engsched/wishlist.php?&courses="
 		craftedURL += str(courseID)
-		craftedURL += "&term=201530&list="
+		craftedURL += "&term="
+		craftedURL += craftedSem
+		craftedURL += "&list="
+
+		print (craftedURL)
 
 		return craftedURL
 
