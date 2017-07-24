@@ -36,8 +36,8 @@ class CourseEntryFrame(Frame):
 		semesterLabel.pack()
 
 		self._selectedSemester = StringVar(self)
-		self._selectedSemester.set("Fall 2016")
-		semesterList = OptionMenu(self, self._selectedSemester, "Fall 2016", "Winter 2017")
+		self._selectedSemester.set("Fall 2017")
+		semesterList = OptionMenu(self, self._selectedSemester, "Fall 2017", "Winter 2018")
 		semesterList.pack()
 
 
