@@ -1,5 +1,7 @@
 *.pyc
 *.pyo
+.eggs/
+.cache/
 course_scheduler.egg-info/
 dist/
 build/

@@ -8,6 +8,8 @@ setup(
     description='Carleton University course scheduling tool',
     long_description=open('README.md').read(),
     install_requires=[ 'requests' ],
+    setup_requires=[ 'pytest-runner' ],
+    tests_require=[ 'pytest' ],
     entry_points={
         'gui_scripts': [
             'course_scheduler = course_scheduler.__main__:main'
