@@ -101,7 +101,7 @@ class UserControlFrame(Frame):
         start_end_times = {'start': self._start_after.get_value(), 'end': self._finish_before.get_value()}
         scheduler = Scheduler(self._observers, self._course_entry.get_course_codes(),
                               self._course_entry.get_selected_semester(), self.get_user_options(), start_end_times)
-        scheduler.startScheduling()
+        scheduler.start_scheduling()
 
     def get_user_options(self):
         filters_list = []
@@ -189,8 +189,8 @@ class TimetableFrame(Frame):
 
     def update(self, newTimetable, otherInfo):
         self._reset()
-        for entry in newTimetable.getRegisteredClasses():
-            self._add_block_to_timetable(entry.getName(), entry.getDays(), entry.getStartTime(), entry.getEndTime())
+        for entry in newTimetable.get_registered_classes():
+            self._add_block_to_timetable(entry.get_name(), entry.get_days(), entry.get_start_time(), entry.get_end_time())
 
 
 class AdjustableClock(Frame):
@@ -245,14 +245,14 @@ class ResultsFrame(Frame):
             return
         if self._current_index == 0:
             return
-        self._scheduler.getTimeTableAtIndex(self._current_index - 1)
+        self._scheduler.get_time_table_at_index(self._current_index - 1)
 
     def _get_next_timetable(self):
         if self._current_index is None:
             return
         if self._current_index + 1 == self._total_number:
             return
-        self._scheduler.getTimeTableAtIndex(self._current_index + 1)
+        self._scheduler.get_time_table_at_index(self._current_index + 1)
 
     def _reset_results(self):
         for label in self._course_results:
@@ -269,8 +269,8 @@ class ResultsFrame(Frame):
 
         # Add labels for alphabetically sorted courses in this timetable
         string_labels = []
-        for entry in new_timetable.getRegisteredClasses():
-            string_labels.append(entry.getName())
+        for entry in new_timetable.get_registered_classes():
+            string_labels.append(entry.get_name())
         string_labels.sort()
         for x in range(len(string_labels)):
             self._course_results[x]['text'] = string_labels[x]

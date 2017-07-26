@@ -1,89 +1,80 @@
-###############################################################################
-#	
-#							InfoManager
-#
-# Note: Uses third party module 'Requests'
-###############################################################################
+import json
 
 import requests
-import json
+
 from school_objects import *
 
+
 class InfoManager(object):
+    def __init__(self):
+        pass
 
-    def __init__(self): pass
-
-    def getCourseInfo(self, courseID, semester):
+    def get_course_info(self, course_id, semester):
         """Get and parse course info for *courseID*. Return Course obj"""
 
         # Get course JSON via HTTP req
-        url = self._craftURL(courseID, semester)
+        url = self._craft_url(course_id, semester)
         # pdb.set_trace()
-        httpRequest = requests.get(url)
-        courseJsonStr = httpRequest.content.split("<html")[0]
-        if courseJsonStr == [[[]], []]:
-            raise ValueError("No data available for course: " + str(courseID))
+        http_request = requests.get(url)
+        course_json_str = http_request.content.split("<html")[0]
+        if course_json_str == [[[]], []]:
+            raise ValueError("No data available for course: " + str(course_id))
 
         # Parse JSON into Course containing Sections
-        return self._parseCourseJson(json.loads(courseJsonStr))
+        return self._parse_course_json(json.loads(course_json_str))
 
-
-    def _craftURL(self, courseID, semester):
-	craftedSem = "20"
-	craftedSem += semester[1:]
-	if "F" in semester:
-		craftedSem += "30"
-	elif "W" in semester:
-		craftedSem += "10"
-	else:
+    def _craft_url(self, course_id, semester):
+        crafted_sem = "20"
+        crafted_sem += semester[1:]
+        if "F" in semester:
+            crafted_sem += "30"
+        elif "W" in semester:
+            crafted_sem += "10"
+        else:
             raise ValueError("Could not craftURL from given semester data")
 
-	craftedURL = "http://at.eng.carleton.ca/engsched/wishlist.php?&courses="
-	craftedURL += str(courseID)
-	craftedURL += "&term="
-	craftedURL += craftedSem
-	craftedURL += "&list="
+        crafted_url = "http://at.eng.carleton.ca/engsched/wishlist.php?&courses="
+        crafted_url += str(course_id)
+        crafted_url += "&term="
+        crafted_url += crafted_sem
+        crafted_url += "&list="
 
-	print (craftedURL)
+        print (crafted_url)
 
-	return craftedURL
+        return crafted_url
 
+    def _parse_course_json(self, course_json):
+        # Get rid of empty lists
+        course_json = course_json[1][0]
 
-    def _parseCourseJson(self, courseJson):
-	# Get rid of empty lists
-	courseJson = courseJson[1][0]
+        # Create Course obj from data avail in the first section json
+        dept = course_json[0]['dept']
+        course_num = course_json[0]['course']
+        title = course_json[0]['title']
+        course = Course(dept, course_num, title)
 
-	# Create Course obj from data avail in the frist section json
-	dept = courseJson[0]['dept']
-	courseNum = courseJson[0]['course']
-	title = courseJson[0]['title']
-	course = Course(dept, courseNum, title)
+        # Create each Section obj and add to Course
+        for section_json in course_json:
+            course.add_section(self._parse_section_json(section_json, dept, course_num))
 
-	# Create each Section obj and add to Course
-	for sectionJson in courseJson:
-		course.addSection(self._parseSectionJson(sectionJson, dept, courseNum))
+        return course
 
-	return course
+    def _parse_section_json(self, section_json, dept, course_num):
+        # Create Section
+        name = dept + course_num + " " + section_json['section']
+        time_slot = TimeSlot(section_json['days'], section_json['start'], section_json['end'])
+        section = Section(name, time_slot)
 
+        # Create and add Lab objects and add to Section
+        if len(section_json['labs']) > 0:
+            for lab_json in section_json['labs'][0]:
+                section.add_lab(self._parse_lab_json(lab_json, dept, course_num))
+            section.set_labs(list(set(section.get_labs())))
 
-    def _parseSectionJson(self, sectionJson, dept, courseNum):
-	# Create Section
-	name = dept + courseNum  + " " + sectionJson['section']
-	timeSlot = TimeSlot(sectionJson['days'], sectionJson['start'], sectionJson['end'])
-	section = Section(name, timeSlot)
+        return section
 
-	# Create and add Lab objects and add to Section
-	if len(sectionJson['labs']) > 0:
-		for labJson in sectionJson['labs'][0]:
-			section.addLab(self._parseLabJson(labJson, dept, courseNum))
-		section.setLabs(list(set(section.getLabs())))
-
-	return section
-
-
-    def _parseLabJson(self, labJson, dept, courseNum):
-	#Create and return Lab obj
-	name = dept + courseNum + " " + labJson['section']
-	timeSlot = TimeSlot(labJson['days'], labJson['start'], labJson['end'])
-	return Lab(name, timeSlot)
-
+    def _parse_lab_json(self, lab_json, dept, course_num):
+        # Create and return Lab obj
+        name = dept + course_num + " " + lab_json['section']
+        time_slot = TimeSlot(lab_json['days'], lab_json['start'], lab_json['end'])
+        return Lab(name, time_slot)

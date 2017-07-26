@@ -1,167 +1,133 @@
 
-###############################################################################
-#	
-#							Course
-#
-###############################################################################
-
 class Course(object):
-	def __init__(self, dept, course, title):
-		"""Couse object constructor"""
+    def __init__(self, dept, course, title):
+        """Course object constructor"""
 
-		self._dept = str(dept)
-		self._course = str(course)
-		self._title = str(title)
-		self._sections = []
+        self._dept = str(dept)
+        self._course = str(course)
+        self._title = str(title)
+        self._sections = []
 
-	def getTitle(self):
-		"""Returns string of course title ex Circuit and Signals"""
-		return self._title
+    def get_title(self):
+        """Returns string of course title ex Circuit and Signals"""
+        return self._title
 
-	def getDept(self):
-		"""Returns string of course dept ex ELEC"""
-		return self._dept
+    def get_dept(self):
+        """Returns string of course dept ex ELEC"""
+        return self._dept
 
-	def getCourse(self):
-		"""Returns string of course code ex 2501"""
-		return self._course
+    def get_course(self):
+        """Returns string of course code ex 2501"""
+        return self._course
 
-	def getSections(self):
-		"""Returns list of course sections objects"""
-		return self._sections
+    def get_sections(self):
+        """Returns list of course sections objects"""
+        return self._sections
 
-	def getNumberOfSections(self):
-		"""Returns int of number of sections associated with course"""
-		return len(self._sections)
+    def get_number_of_sections(self):
+        """Returns int of number of sections associated with course"""
+        return len(self._sections)
 
-	def addSection(self, section):
-		"""Adds *section* to the list of Sections for the course"""
-		if type(section) == Section:
-			self._sections.append(section)
-			return True
+    def add_section(self, section):
+        """Adds *section* to the list of Sections for the course"""
+        if type(section) == Section:
+            self._sections.append(section)
+            return True
 
-		return False
+        return False
 
-	def removeSection(self, sec):
-		self._sections.remove(sec)
-		if len(self._sections) == 0:
-			return -1
+    def remove_section(self, sec):
+        self._sections.remove(sec)
+        if len(self._sections) == 0:
+            return -1
 
-		return 0
+        return 0
 
-	def setSections(self, newSectionList):
-		self._sections = newSectionList
-
-
-###############################################################################
-#	
-#							Classroom
-#
-###############################################################################
+    def set_sections(self, new_section_list):
+        self._sections = new_section_list
 
 
 class Classroom(object):
-	def __init__(self, name, timeSlot):
-		self._name = str(name)
-		self._timeSlot = timeSlot
+    def __init__(self, name, time_slot):
+        self._name = str(name)
+        self._timeSlot = time_slot
 
-	def getName(self):
-		return self._name
+    def get_name(self):
+        return self._name
 
-	def getTimeSlot(self):
-		return self._timeSlot
+    def get_time_slot(self):
+        return self._timeSlot
 
-	def getDays(self):
-		return self._timeSlot.getDays()
+    def get_days(self):
+        return self._timeSlot.get_days()
 
-	def getStartTime(self):
-		return self._timeSlot.getStartTime()
+    def get_start_time(self):
+        return self._timeSlot.get_start_time()
 
-	def getEndTime(self):
-		return self._timeSlot.getEndTime()
-
-
-###############################################################################
-#	
-#							Section
-#
-###############################################################################
+    def get_end_time(self):
+        return self._timeSlot.get_end_time()
 
 
 class Section(Classroom):
-	def __init__(self, name, timeSlot):
-		"""Constructor for section object"""
-		super(Section, self).__init__(name, timeSlot)
-		self._labs = []
+    def __init__(self, name, time_slot):
+        """Constructor for section object"""
+        super(Section, self).__init__(name, time_slot)
+        self._labs = []
 
-	def getLabs(self):
-		return self._labs
+    def get_labs(self):
+        return self._labs
 
-	def getNumberOfLabs(self):
-		return len(self._labs)
+    def get_number_of_labs(self):
+        return len(self._labs)
 
-	def addLab(self, lab):
-		if type(lab) == Lab:
-			self._labs.append(lab)
-			return True
+    def add_lab(self, lab):
+        if type(lab) == Lab:
+            self._labs.append(lab)
+            return True
 
-		return False
+        return False
 
-	def removeLab(self, lab):
-		self._labs.remove(lab)
-		if len(self._labs) == 1:
-			return -1
+    def remove_lab(self, lab):
+        self._labs.remove(lab)
+        if len(self._labs) == 1:
+            return -1
 
-		return 0
+        return 0
 
-	def setLabs(self, newLabsList):
-		self._labs = newLabsList
-
-
-###############################################################################
-#	
-#							Lab
-#
-###############################################################################
+    def set_labs(self, new_labs_list):
+        self._labs = new_labs_list
 
 
 class Lab(Classroom):
-	def __init__(self, name, timeSlot):
-		"""Constructor for lab object"""
-		super(Lab, self).__init__(name, timeSlot)
+    def __init__(self, name, time_slot):
+        """Constructor for lab object"""
+        super(Lab, self).__init__(name, time_slot)
 
-	def __eq__(self, other):
-		return type(self)==type(other) and self.getTimeSlot()==other.getTimeSlot()
+    def __eq__(self, other):
+        return type(self) == type(other) and self.get_time_slot() == other.get_time_slot()
 
-	def __hash__(self):
-		return hash((self.getDays(), self.getStartTime(), self.getEndTime()))
-
-
-###############################################################################
-#	
-#							TimeSlot
-#
-###############################################################################
+    def __hash__(self):
+        return hash((self.get_days(), self.get_start_time(), self.get_end_time()))
 
 
 class TimeSlot(object):
-	def __init__(self, days, startTime, endTime):
-		self._days = str(days)
-		self._startTime = self._stringTimeToInt(startTime)
-		self._endTime = self._stringTimeToInt(endTime)
+    def __init__(self, days, start_time, end_time):
+        self._days = str(days)
+        self._start_time = self._string_time_to_int(start_time)
+        self._end_time = self._string_time_to_int(end_time)
 
-	def __eq__(self, other):
-		return self.getDays()==other.getDays() and self.getStartTime()==other.getStartTime()\
-		and self.getEndTime()==other.getEndTime()
+    def __eq__(self, other):
+        return self.get_days() == other.get_days() and self.get_start_time() == other.get_start_time() \
+               and self.get_end_time() == other.get_end_time()
 
-	def getDays(self):
-		return self._days
+    def get_days(self):
+        return self._days
 
-	def getStartTime(self):
-		return self._startTime
+    def get_start_time(self):
+        return self._start_time
 
-	def getEndTime(self):
-		return self._endTime
+    def get_end_time(self):
+        return self._end_time
 
-	def _stringTimeToInt(self, t):
-		return int(t[0] + t[1] + t[3] + t[4])
+    def _string_time_to_int(self, t):
+        return int(t[0] + t[1] + t[3] + t[4])
