@@ -2,6 +2,7 @@
 *.pyo
 .eggs/
 .cache/
+.idea/
 course_scheduler.egg-info/
 dist/
 build/
