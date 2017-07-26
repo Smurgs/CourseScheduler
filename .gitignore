@@ -1,2 +1,3 @@
 *.pyc
-*.egg--info/
+course_scheduler.egg--info/
+dist/
