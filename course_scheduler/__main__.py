@@ -1,19 +1,18 @@
-from Tkinter import *
 from gui import *
+
 
 def main():
     gui = Tk()
     timetable = TimetableFrame()
-    courseEntry = CourseEntryFrame()
-    resultsFrame = ResultsFrame()
-    observers = [timetable, resultsFrame]
-    userControl = UserControlFrame(courseEntry, observers)
+    course_entry = CourseEntryFrame()
+    results_frame = ResultsFrame()
+    observers = [timetable, results_frame]
+    user_control = UserControlFrame(course_entry, observers)
 
-
-    courseEntry.grid(row=0, column=0)
-    userControl.grid(row=0, column=1)
+    course_entry.grid(row=0, column=0)
+    user_control.grid(row=0, column=1)
     timetable.grid(row=0, column=2)
-    resultsFrame.grid(row=0, column=3)
+    results_frame.grid(row=0, column=3)
 
     gui.mainloop()
 
