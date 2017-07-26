@@ -1,4 +1,4 @@
-from InfoParse import *
+from mapper import *
 import tkMessageBox, copy, random
 
 ###############################################################################

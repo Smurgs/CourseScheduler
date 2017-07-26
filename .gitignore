@@ -1,3 +1,4 @@
 *.pyc
-course_scheduler.egg--info/
+course_scheduler.egg-info/
 dist/
+build/

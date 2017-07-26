@@ -5,10 +5,9 @@
 # Note: Uses third party module 'Requests'
 ###############################################################################
 
-import pdb
 import requests
 import json
-from SchoolObjects import *
+from school_objects import *
 
 class InfoManager(object):
 
