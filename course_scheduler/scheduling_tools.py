@@ -11,7 +11,6 @@ class Scheduler(object):
         self._course_codes = course_codes
         self._semester = semester
         self._user_filters, self._user_preference = user_options
-        self._info_manager = InfoManager()
         self._start_after = start_end_times['start'] if 6 in self._user_filters else 0
         self._end_before = start_end_times['end'] if 7 in self._user_filters else 2400
         self._valid_timetables = []
@@ -48,7 +47,7 @@ class Scheduler(object):
     def _get_course_data(self):
         course_objs = []
         for course_code in self._course_codes:
-            course_objs.append(self._info_manager.get_course_info(course_code, self._semester))
+            course_objs.append(InfoManager.get_course_info(course_code, self._semester))
         return course_objs
 
     def _find_and_rate_all(self, preference_function):
