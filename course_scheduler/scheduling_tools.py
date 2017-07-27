@@ -51,7 +51,7 @@ class Scheduler(object):
         return course_objs
 
     def _find_and_rate_all(self, preference_function):
-        virtual_schedule = VirtualSchedule(len(self._course_objects))
+        virtual_schedule = VirtualSchedule()
         self._recursive_section_loop(0, virtual_schedule, preference_function)
 
     def _recursive_section_loop(self, depth_of_recursion, vs, preference_function):
@@ -163,7 +163,7 @@ class ValidTimetable(object):
 
 
 class VirtualSchedule(object):
-    def __init__(self, num_of_courses, ):
+    def __init__(self):
         self._days = {
             'M': [],
             'T': [],
